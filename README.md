@@ -1,5 +1,14 @@
-# pyogame
-<img src="https://github.com/alaingilbert/pyogame/blob/develop/logo.png?raw=true" width="300" alt="logo">
+# OGame bot
+<a href="https://opensource.org/licenses/MIT">
+  <img src="https://img.shields.io/badge/License-MIT-red.svg"
+      alt="MIT">
+</a>
+<a href="https://github.com/TeamDF14/Latex-Template/issues">
+   <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"
+        alt="Contributions Welcome">
+</a>
+
+<img src="https://github.com/alaingilbert/pyogame/blob/develop/logo.png?raw=true" width="200" alt="logo">
 
 OGame is a browser-based, money-management and space-war themed massively multiplayer online browser game with over 
 two million accounts.
