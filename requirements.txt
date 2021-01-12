@@ -1,0 +1,6 @@
+requests==2.25.1
+beautifulsoup4==4.9.3
+html5lib
+ogame~=7.6.2.18
+bs4~=0.0.1
+loguru~=0.5.3
