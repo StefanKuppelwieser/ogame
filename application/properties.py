@@ -157,6 +157,7 @@ class Properties(object):
     # if true, all inactive planets will be scanned
     PROBES_DELETE_OLD_SPY_REPORTS = True
     PROBES_TAKE_BEST_PLANETS = True
+    PROBES_TAKE_PLANETS_LIMIT = 25
 
     PROBES_TAKE_OLD_SPY_REPORTS = False
     if PROBES_TAKE_OLD_SPY_REPORTS:

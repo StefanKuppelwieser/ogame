@@ -86,15 +86,8 @@ class Expedition(object):
                 amount_reaper = 1
                 skip = True
 
-            amount_destroyer = 0
-            if amount_reaper > 0:
-                pass
-            elif self.empire.ships(planet_id).destroyer.amount > 0 and skip == False:
-                amount_destroyer = 1
-                skip = True
-
             amount_bomber = 0
-            if amount_destroyer > 0:
+            if amount_reaper > 0:
                 pass
             elif self.empire.ships(planet_id).bomber.amount > 0 and skip == False:
                 amount_bomber = 1
@@ -211,10 +204,9 @@ class Expedition(object):
                         ships.espionage_probe(1),
                         ships.large_transporter(tmp_cargos.large_cargos),
                         ships.small_transporter(tmp_cargos.small_cargos),
-                        ships.destroyer(battleships.amount_destroyer),
+                        ships.reaper(battleships.amount_reaper),
                         ships.bomber(battleships.amount_bomber),
                         ships.interceptor(battleships.amount_interceptor),
-                        ships.reaper(battleships.amount_reaper),
                         ships.battleship(battleships.amount_battleship),
                         ships.cruiser(battleships.amount_cruiser),
                         ships.heavy_fighter(battleships.amount_heavy_figther),

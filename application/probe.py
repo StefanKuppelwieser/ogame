@@ -259,6 +259,7 @@ class Probe(object):
                 #    i += 1
                 filtered_spy_reports = [report for report in filtered_spy_reports if
                                         (report.resourcesTotal * self.properties.PEROBES_LOOT) >= self.properties.PROBES_SMALL_CARGOS * self.properties.PROBES_MIN_SMALL_CARGOS]
+                filtered_spy_reports = filtered_spy_reports[:self.properties.PROBES_TAKE_PLANETS_LIMIT]
                 first_run = False
             else:
                 message = 'In the filtered_spyreports list are still {0} planets left'.format(len(filtered_spy_reports))
