@@ -78,7 +78,9 @@ def run_save_bot(test_):
                     current_enemy.player_name))
 
                 # report to me
-                message = '!!! You are under attack from {0}, {1} at planet {2}. He arrives at {3} !!!'.format(
+                message = '!!!!!!!!\n\n ' \
+                          'You are under attack from {0}, {1} at planet {2}. He arrives at {3} ' \
+                          '\n\n!!!!!!!!'.format(
                     current_enemy.player_name,
                     current_enemy.player_id,
                     current_enemy.destination,
