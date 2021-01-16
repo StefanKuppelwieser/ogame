@@ -142,6 +142,8 @@ class Expedition(object):
         amount_small_cargos = self.empire.ships(planet_id).small_transporter.amount
 
         if self.properties.EXPEDITIONS_LARGE_CARGOS <= amount_large_cargos:
+            if amount_large_cargos > 1340:
+                amount_large_cargos = 1340
             amount_small_cargos = 0
             #amount_large_cargos = self.properties.EXPEDITIONS_LARGE_CARGOS
         elif self.properties.EXPEDITIONS_SMALL_CARGOS <= amount_small_cargos:
