@@ -2,7 +2,7 @@ class Properties(object):
     ########################
     # bots                 #
     ########################
-    BOT_PROBE = True
+    BOT_PROBE = False
     BOT_SAVE = True
     BOT_EXPEDITIONS = True
 
@@ -171,6 +171,13 @@ class Properties(object):
     # Properties 4 saving           #
     #################################
     SAVING_RECHECK_ATTACKS = 180
+
+    SAVING_RANDOM_TEXT = [
+        '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',
+        'Ein Witz aus meiner Witzkiste: "Sagt ein Mann zu seinem Freund: „Meine Frau macht eine dreiwöchige Diät.“ „Und wie viel hat sie schon verloren?“ „Zwei Wochen.“" Aber mich stellt sich nun die Frage wie ich euch helfen kann?',
+        'Ist bei euch das Wetter auch so herrlich wie bei mir? Wie kann ich denn weiterhelfen?',
+        'Darf ich dir ein Geheimnis erzählen? Ich habe einen Joghurt fallen gelassen. Er war nicht mehr haltbar. Wie kann ich euch weiterhelfen?'
+    ]
 
     #################################
     # Properties 4 expeditions      #

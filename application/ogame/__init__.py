@@ -248,8 +248,20 @@ class OGame(object):
                 moon = re.search('cp=(.*)', moon).group(1)
                 moons.append(int(moon))
         except:
-            logger.error('Can not get moon ids')
+            self.relogin_script()
+            return self.moon_ids()
         return moons
+
+    def all_planet_ids(self):
+        all_planets = []
+        try:
+            all_planets.extend(self.planet_ids())
+            all_planets.extend(self.moon_ids())
+        except:
+            self.relogin_script()
+            return self.all_planet_ids()
+        return all_planets
+
 
     def moon_names(self):
         names = []

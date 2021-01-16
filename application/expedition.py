@@ -169,7 +169,7 @@ class Expedition(object):
             self.check_free_expedition_slots()
 
             # get best cords for expedition
-            for planet in self.empire.planet_ids():
+            for planet in self.empire.all_planet_ids():
                 # get cargos
                 cargos = self.get_amount_cargos(planet)
 
