@@ -176,7 +176,8 @@ class Properties(object):
         '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',
         'Ein Witz aus meiner Witzkiste: "Sagt ein Mann zu seinem Freund: „Meine Frau macht eine dreiwöchige Diät.“ „Und wie viel hat sie schon verloren?“ „Zwei Wochen.“" Aber mich stellt sich nun die Frage wie ich euch helfen kann?',
         'Ist bei euch das Wetter auch so herrlich wie bei mir? Wie kann ich denn weiterhelfen?',
-        'Darf ich dir ein Geheimnis erzählen? Ich habe einen Joghurt fallen gelassen. Er war nicht mehr haltbar. Wie kann ich euch weiterhelfen?'
+        'Darf ich dir ein Geheimnis erzählen? Ich habe einen Joghurt fallen gelassen. Er war nicht mehr haltbar. Wie kann ich euch weiterhelfen?',
+        'Ist denn schon Weihnachten? Wie kann ich euch helfen?'
     ]
 
     #################################

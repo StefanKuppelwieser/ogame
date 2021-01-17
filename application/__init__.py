@@ -4,9 +4,8 @@ import configparser
 import os
 import threading
 import logging
-import time
-import sys
 
+from saving import Saving
 from expedition import Expedition
 from utils import Utils
 from properties import Properties
@@ -44,59 +43,10 @@ def run_prob_bot(test_):
 def run_save_bot(test_):
     logging.info("Thread %s: starting", 'run_save_bot')
 
-    enemies_cache = []
+    saving = Saving(properties, empire, telegram, utils)
+    saving.auto_run_saving()
 
-    while True:
-        logger.info('Check if you get attacked or not')
-
-        # check if you get attacked
-        if empire.attacked():
-
-            # save enemy to the cache
-            if len(enemies_cache) == 0:
-                enemies_cache = empire.hostile_fleet()
-            else:
-                tmp_enemies_cache = enemies_cache
-                enemies_cache = []
-                for new in empire.hostile_fleet():
-                    exist = False
-                    for old in tmp_enemies_cache:
-                        if new.arrival == old.arrival:
-                            exist = True
-                    if exist is False:
-                        enemies_cache.append(new)
-
-            # save ressources
-            # send spy probe
-
-            # send message to enemy
-            for current_enemy in enemies_cache:
-                empire.send_message(current_enemy.player_id, 'Seid gegrüßt {0}! “Houston, we’ve had a problem.” - Jim Lovell, '
-                                                     'Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der '
-                                                     'Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn '
-                                                     'euch weiterhelfen?'.format(
-                    current_enemy.player_name))
-
-                # report to me
-                message = '!!!!!!!!\n\n ' \
-                          'You are under attack from {0}, {1} at planet {2}. He arrives at {3} ' \
-                          '\n\n!!!!!!!!'.format(
-                    current_enemy.player_name,
-                    current_enemy.player_id,
-                    current_enemy.destination,
-                    current_enemy.arrival
-                )
-                logger.warning(message)
-                telegram.send_message(message)
-
-            # update cache
-            enemies_cache = empire.hostile_fleet()
-        else:
-            # reset list
-            enemies_cache = []
-
-        # wait xx seconds for next check
-        time.sleep(properties.SAVING_RECHECK_ATTACKS)
+    logging.info("Thread %s: finishing", 'run_save_bot')
 
 ########################
 # run expedition bot   #
@@ -109,7 +59,6 @@ def run_expedition_bot(test_):
     expedition.auto_run_expedition()
 
     logging.info("Thread %s: finishing", 'run_expedition_bot')
-    pass
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

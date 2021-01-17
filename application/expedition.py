@@ -36,7 +36,7 @@ class Expedition(object):
                 self.properties.get_amount_max_fleets()
             )
             logger.info(message)
-            self.telegram.send_message(message)
+            #self.telegram.send_message(message)
             time.sleep(self.properties.EXPEDITIONS_RECHECK)
 
     def build_pathfinder(self, planet_id, amount=1):
