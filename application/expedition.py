@@ -139,14 +139,14 @@ class Expedition(object):
 
     def get_amount_cargos(self, planet_id):
         amount_large_cargos = self.empire.ships(planet_id).large_transporter.amount
-        amount_small_cargos = self.empire.ships(planet_id).small_transporter.amount
+        amount_small_cargos = 0 if self.properties.EXPEDITIONS_ONLY_LARGE_CARGOS is True else self.empire.ships(planet_id).small_transporter.amount
 
-        if self.properties.EXPEDITIONS_LARGE_CARGOS <= amount_large_cargos:
+        if self.properties.EXPEDITIONS_LARGE_CARGOS <= amount_large_cargos and self.properties.EXPEDITIONS_ONLY_LARGE_CARGOS is True:
             if amount_large_cargos > 1340:
                 amount_large_cargos = 1340
             amount_small_cargos = 0
             #amount_large_cargos = self.properties.EXPEDITIONS_LARGE_CARGOS
-        elif self.properties.EXPEDITIONS_SMALL_CARGOS <= amount_small_cargos:
+        elif self.properties.EXPEDITIONS_SMALL_CARGOS <= amount_small_cargos and self.properties.EXPEDITIONS_ONLY_LARGE_CARGOS is False:
             amount_large_cargos = 0
             #amount_small_cargos = self.properties.EXPEDITIONS_SMALL_CARGOS
         else:
@@ -194,7 +194,7 @@ class Expedition(object):
             try:
                 target = coordinates(
                     self.empire.celestial_coordinates(tmp_source_planet)[0],
-                    int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-10, 10)),
+                    int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-self.properties.EXPEDITIONS_RANGE, self.properties.EXPEDITIONS_RANGE)),
                     16)
 
                 response = self.empire.send_fleet(
