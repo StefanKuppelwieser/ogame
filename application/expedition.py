@@ -100,15 +100,8 @@ class Expedition(object):
                 amount_interceptor = 1
                 skip = True
 
-            amount_reaper = 0
-            if amount_interceptor > 0:
-                pass
-            elif self.empire.ships(planet_id).reaper.amount > 0 and skip == False:
-                amount_reaper = 1
-                skip = True
-
             amount_battleship = 0
-            if amount_reaper > 0:
+            if amount_interceptor > 0:
                 pass
             elif self.empire.ships(planet_id).battleship.amount > 0 and skip == False:
                 amount_battleship = 1
