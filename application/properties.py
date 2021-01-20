@@ -189,7 +189,7 @@ class Properties(object):
     EXPEDITIONS_LARGE_CARGOS = 100
     EXPEDITIONS_SMALL_CARGOS = 200
 
-    EXPEDITIONS_RANGE = 0
+    EXPEDITIONS_RANGE = 3
 
 
     def __init__(self, empire):
