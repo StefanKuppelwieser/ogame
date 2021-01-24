@@ -42,9 +42,9 @@ class Saving(object):
                 for current_enemy in enemies_cache:
 
                     #self.empire.send_message(current_enemy.player_id, 'Seid gegrüßt {0}! {1}'.format(
-                                            current_enemy.player_name,
-                                            random.choice(self.properties.SAVING_RANDOM_TEXT)
-                                        ))
+                    #                        current_enemy.player_name,
+                    #                        random.choice(self.properties.SAVING_RANDOM_TEXT)
+                    #                    ))
 
                     # report to me
                     message = '!!!!!!!! You are under attack from {0}, {2} at planet {3}. He arrives at {4} !!!!!!!!'.format(
