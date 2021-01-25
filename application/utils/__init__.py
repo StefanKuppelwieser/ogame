@@ -1,6 +1,7 @@
 from loguru import logger
 from ogame import OGame
 from telegram import Telegram
+from datetime import datetime
 
 
 def galaxy_distance(galaxy1, galaxy2, universe_size, donut_galaxy):
@@ -78,3 +79,21 @@ class Utils(object):
         for position in target_planet.split(':'):
             cords.append(int(position))
         return cords
+
+    ######################
+    # Time
+    ######################
+    def get_diff_minutes(self, datetime_before, datetime_after=datetime.now()):
+        diff_minutes = 0
+        seconds_in_day = 24 * 60 * 60
+
+        divmod((datetime_after - datetime.now()).days * seconds_in_day + (datetime_after - datetime.now()).seconds, 60)[0]
+
+        try:
+            difference = datetime_before - datetime_after
+            diff_minutes = divmod(difference.days * seconds_in_day + difference.seconds, 60)[0]
+        except:
+            logger.error('Can not calculate the difference between two dateimes')
+            return 0
+
+        return diff_minutes

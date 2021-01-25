@@ -4,7 +4,7 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = True
+    BOT_EXPEDITIONS = False
 
     ########################
     # Properties 4 probes  #
@@ -170,7 +170,7 @@ class Properties(object):
     #################################
     # Properties 4 saving           #
     #################################
-    SAVING_RECHECK_ATTACKS = 180
+    SAVING_RECHECK_ATTACKS = 5
 
     SAVING_RANDOM_TEXT = [
         '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',

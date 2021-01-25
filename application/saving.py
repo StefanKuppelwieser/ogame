@@ -1,8 +1,8 @@
 import time
-import random
 
 from ogame import OGame
 from loguru import logger
+
 
 class Saving(object):
     def __init__(self, properties, empire, telegram, utils):
@@ -21,23 +21,55 @@ class Saving(object):
             # check if you get attacked
             if self.empire.attacked():
 
-                # save enemy to the cache
-                if len(enemies_cache) == 0:
-                    enemies_cache = self.empire.hostile_fleet()
-                else:
-                    tmp_enemies_cache = enemies_cache
-                    enemies_cache = []
-                    for new in self.empire.hostile_fleet():
-                        exist = False
-                        for old in tmp_enemies_cache:
-                            if new.arrival == old.arrival:
-                                exist = True
-                        if exist is False:
-                            enemies_cache.append(new)
+                # check cache can be reduced
+
+                    # gehe cache durch
+                    # berechne differenz
+                    # wenn die differenz kleiner gleich 0 ist -> löschen
+                    # wenn die differenz größer 0 ist nichts machen: pass
+
+                    #diff_minutes = self.utils.get_diff_minutes(self.empire.hostile_fleet()[0].arrival)
+                    #print(diff_minutes)
+
+
+                # checken ob attacke eine spio ist
+
+                    # angreife loppen
+                    # differenz von start und ankunft ausrechnen
+                    # ist die differenz größer 10 minuten => Angriff => cache_liste speichern => Spio mit 11 probs verschicken vom angreifenden planeten
+                    # Ansonsten ist es eine spio => telegram messagen => NICHT in cache speichern
+
+
+                    # # save enemy to the cache
+                    # if len(enemies_cache) == 0:
+                    #     enemies_cache = self.empire.hostile_fleet()
+                    # else:
+                    #     tmp_enemies_cache = enemies_cache
+                    #     enemies_cache = []
+                    #     for new in self.empire.hostile_fleet():
+                    #         exist = False
+                    #         for old in tmp_enemies_cache:
+                    #             if new.arrival == old.arrival:
+                    #                 exist = True
+                    #         if exist is False:
+                    #             enemies_cache.append(new)
+
 
                 # save ressources
-                # send spy probe
 
+                    # Nachricht raus an Telegram mit start des savens
+                    # checken ob der planet/mond einen mond/planet hat
+                    # Alle transporter holen
+                    # Todestern einzeln an den anderen planeten senden
+                    # Alle Flotten an den planeten senden. Voll machen mit metall, dann kristall, dann deut
+                    # while aller Transporter
+                        # Alle resourcen schicken
+                        # beim letzten loop transport stationieren statt transport
+                    # complett gesaved
+                    # Nachricht an Telegram raus
+
+
+                # can entfernt werden
                 # send message to enemy
                 for current_enemy in enemies_cache:
 
