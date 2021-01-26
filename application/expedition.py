@@ -169,7 +169,7 @@ class Expedition(object):
                 cargos = self.get_amount_cargos(planet)
 
                 # choice planet
-                if tmp_space <= cargos.total_space:
+                if tmp_space < cargos.total_space:
                     tmp_cargos = cargos
                     tmp_space = cargos.total_space
                     tmp_source_planet = planet
