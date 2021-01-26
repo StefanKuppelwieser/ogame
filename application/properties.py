@@ -4,7 +4,7 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = False
+    BOT_EXPEDITIONS = True
 
     ########################
     # Properties 4 probes  #
