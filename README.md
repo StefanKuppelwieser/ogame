@@ -14,7 +14,7 @@ OGame is a browser-based, money-management and space-war themed massively multip
 two million accounts.
 
 This application is based on the lib from https://github.com/alaingilbert/pyogame.
-With this application you can loot in the inactive player, automatically send expeditions and send messages to attackers. The application is gradually expanded over time. It's learning project for me.
+With this script you can loot inactive players, automatically send expeditions and send messages to attackers. The application is gradually expanded over time. It's basicly a learning project for me.
 
 ## Run
 The application runs with python in the version 3.7. At first install all missing pip packages. After that you have to create the config file. The config file is placed in the root folder and ist named ```config.cfg```. The content of the file is:
