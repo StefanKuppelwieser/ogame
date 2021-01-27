@@ -649,11 +649,17 @@ class OGame(object):
             alliance_id = row.find(rel=re.compile(r'alliance[0-9]+'))
             alliance_id = num_from_tag(alliance_id['rel']) if alliance_id else None
 
+            #check if there is any debris
+            is_debris = False
+            if row.find(class_=re.compile(r'^debris js_debris([0-1]?[0-9])$')) is not None:
+                is_debris = True
+
             class Position:
                 position = planet_cord
                 name = row.find(id=re.compile(r'planet[0-9]+')).h1.span.text
                 player = player_name[pid]
                 player_id = pid
+                debris = is_debris
                 rank = player_rank.get(pid)
                 status = planet_status
                 moon = moon_pos is not None
