@@ -4,7 +4,8 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = True
+    BOT_EXPEDITIONS = False
+    BOT_DEBRIS = True
 
     ########################
     # Properties 4 probes  #
@@ -64,7 +65,6 @@ class Properties(object):
         [2, 218, 10, 1],
         [2, 220, 9, 1],
         [2, 230, 7, 1],
-        # [2, 234, 6, 1], urlaubsmodous
         [2, 235, 7, 1],
         [2, 247, 6, 1],
         [2, 253, 10, 1],
@@ -72,8 +72,6 @@ class Properties(object):
         [2, 254, 6, 1],
         [2, 254, 7, 1],
         [2, 254, 12, 1],
-        # [2, 255, 6, 1], noob protection
-        # [2, 255, 9, 1], noob protection
         [2, 255, 11, 1],
         [2, 256, 4, 1],
         [2, 256, 9, 1],
@@ -121,7 +119,6 @@ class Properties(object):
         [2, 494, 8, 1],
 
         [3, 117, 4, 1],
-        # [3, 126, 12, 1],
         [3, 132, 7, 1],
         [3, 139, 6, 1],
         [3, 141, 8, 1],
@@ -190,6 +187,11 @@ class Properties(object):
     EXPEDITIONS_SMALL_CARGOS = 200
 
     EXPEDITIONS_RANGE = 3
+
+    #################################
+    # Properties 4 debris           #
+    #################################
+    DEBRIS_RECHECK = 120
 
 
     def __init__(self, empire):

@@ -240,6 +240,11 @@ class OGame(object):
             if planet_name == name:
                 return id
 
+    def id_by_moon_name(self, name):
+        for moon_name, id in zip(OGame.moon_names(self), OGame.moon_ids(self)):
+            if moon_name == name:
+                return id
+
     def moon_ids(self):
         moons = []
         try:
@@ -645,6 +650,7 @@ class OGame(object):
             planet_cord = const.coordinates(
                 coords[0], coords[1], int(planet), const.destination.planet)
             moon_pos = row.find(rel=re.compile(r'moon[0-9]*'))
+            moon_na = row.find(rel=re.compile(r'moon[0-9]*')).h1.span.text.replace(' ', '') if moon_pos is not None else None
 
             alliance_id = row.find(rel=re.compile(r'alliance[0-9]+'))
             alliance_id = num_from_tag(alliance_id['rel']) if alliance_id else None
@@ -663,6 +669,7 @@ class OGame(object):
                 rank = player_rank.get(pid)
                 status = planet_status
                 moon = moon_pos is not None
+                moon_name = moon_na
                 alliance = alliance_name.get(alliance_id)
                 list = [name, position, player, player_id, rank, status, moon, alliance]
 

@@ -5,6 +5,7 @@ import os
 import threading
 import logging
 
+from application.debrisField import DebrisField
 from saving import Saving
 from expedition import Expedition
 from utils import Utils
@@ -36,6 +37,17 @@ def run_prob_bot(test_):
     probe.run_auto_probe(spy_reports)
 
     logging.info("Thread %s: finishing", 'run_prob_bot')
+
+########################
+# run debris bot       #
+########################
+def run_debris_bot(test_):
+    logging.info("Thread %s: starting", 'run_debris_bot')
+
+    debris = DebrisField(properties, empire, telegram, utils)
+    debris.auto_collect_debris_fields()
+
+    logging.info("Thread %s: finishing", 'run_debris_bot')
 
 ########################
 # run save bot         #
@@ -104,6 +116,14 @@ if __name__ == '__main__':
             bot_saving = threading.Thread(target=run_save_bot, args=(properties,))
             threads.append(bot_saving)
             bot_saving.start()
+
+        # thread debris
+        if properties.BOT_DEBRIS:
+            logging.info("Main    : create and start thread %s.", 'debris')
+            bot_debris = threading.Thread(target=run_debris_bot, args=(properties,))
+            threads.append(bot_debris)
+            bot_debris.start()
+
 
         for index, thread in enumerate(threads):
             logging.info("Main    : before joining thread %d.", index)
