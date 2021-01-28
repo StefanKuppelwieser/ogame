@@ -5,7 +5,7 @@ import os
 import threading
 import logging
 
-from application.debrisField import DebrisField
+from debrisField import DebrisField
 from saving import Saving
 from expedition import Expedition
 from utils import Utils
