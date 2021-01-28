@@ -190,6 +190,16 @@ class Expedition(object):
                     int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-self.properties.EXPEDITIONS_RANGE, self.properties.EXPEDITIONS_RANGE)),
                     16)
 
+                #check enogugh deut on planet
+                if self.empire.resources(tmp_source_planet).deuterium < 10000:
+                    message = 'Not enough deut on planet {0} {1} to send expedition'.format(
+                        tmp_source_planet,
+                        self.empire.name_by_moon_planet_id(tmp_source_planet)
+                    )
+                    logger.info(message)
+                    self.telegram.send_message(message)
+                    continue
+
                 response = self.empire.send_fleet(
                     mission=mission.expedition,
                     id=tmp_source_planet,
@@ -212,10 +222,11 @@ class Expedition(object):
                 logger.error('Error during send fleets in auto_run_expedition')
                 continue
             if response:
-                message = 'Send {0} large and {1} small cargos from {2} to explore {3}'.format(
+                message = 'Send {0} large and {1} small cargos from {2} {3} to explore {4}'.format(
                     tmp_cargos.large_cargos,
                     tmp_cargos.small_cargos,
                     self.empire.celestial_coordinates(tmp_source_planet),
+                    self.empire.name_by_moon_planet_id(tmp_source_planet),
                     target
                 )
                 logger.info(message)
