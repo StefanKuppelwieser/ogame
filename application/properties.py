@@ -191,7 +191,7 @@ class Properties(object):
     #################################
     # Properties 4 debris           #
     #################################
-    DEBRIS_RECHECK = 120
+    DEBRIS_RECHECK = 90
 
 
     def __init__(self, empire):

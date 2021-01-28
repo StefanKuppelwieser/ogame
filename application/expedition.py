@@ -27,8 +27,7 @@ class Expedition(object):
     def check_free_expedition_slots(self):
         while self.properties.get_amount_expeditions_fleets() <= self.get_current_expeditions() or \
                 len(self.empire.friendly_fleet()) >= self.properties.get_amount_max_fleets():
-            message = 'Currently are {0} of {1} of expeditions and {3} of {4} fleets on the way. Wait {2} for next ' \
-                      'try..'.format(
+            message = 'Currently are {0} of {1} of expeditions and {3} of {4} fleets on the way. Wait {2} seconds for next try..'.format(
                 self.get_current_expeditions(),
                 self.properties.get_amount_expeditions_fleets(),
                 self.properties.EXPEDITIONS_RECHECK,

@@ -14,9 +14,8 @@ class DebrisField(object):
 
 
     def wait_for_next_run(self):
+        logger.info('Wait {0} seconds for next run to check the debris fields'.format(self.properties.DEBRIS_RECHECK))
         time.sleep(self.properties.DEBRIS_RECHECK)
-        logger.info('Wait {0} for next run to check the debris fields'.format(self.properties.DEBRIS_RECHECK))
-
 
     def collect_debris_planet_infos(self):
         message = "Get debris, planets and moons"
@@ -52,7 +51,7 @@ class DebrisField(object):
 
     def check_free_fleet_slots(self):
         while len(self.empire.friendly_fleet()) >= self.properties.get_amount_max_fleets():
-            message = 'Currently are {0} of {1} fleets occupied. Wait {2} for next try..'.format(
+            message = 'Currently are {0} of {1} fleets occupied. Wait {2} seconds for next try..'.format(
                 len(self.empire.friendly_fleet()),
                 self.properties.get_amount_max_fleets(),
                 self.properties.DEBRIS_RECHECK,
@@ -93,6 +92,9 @@ class DebrisField(object):
                             message = 'No recycler on planet {0} to loot debris'.format(scanned_planet.name)
                             logger.info(message)
                             #self.telegram.send_message(message)
+
+                    # Remove item
+                    scanned_planets.pop(0)
             except:
                 logger.error('An error occurred in auto_collect_debris_fields(). Restart auto_collect_debris_fields()')
 

@@ -25,7 +25,7 @@ class Probe(object):
     def check_free_slots(self):
         while self.properties.get_amount_probe_fleets() <= self.get_current_probes() or \
                 len(self.empire.friendly_fleet()) >= self.properties.get_amount_max_fleets():
-            message = 'Currently are {0} of {1} of kind of spy or transport and {3} of {4} on the way. Wait {2} for ' \
+            message = 'Currently are {0} of {1} of kind of spy or transport and {3} of {4} on the way. Wait {2} seconds for ' \
                       'next try..'.format(
                 self.get_current_probes(),
                 self.properties.get_amount_probe_fleets(),
