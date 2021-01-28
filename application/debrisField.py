@@ -51,7 +51,7 @@ class DebrisField(object):
             self.telegram.send_message(message)
 
     def check_free_fleet_slots(self):
-        while len(self.empire.friendly_fleet()) <= self.properties.get_amount_max_fleets():
+        while len(self.empire.friendly_fleet()) >= self.properties.get_amount_max_fleets():
             message = 'Currently are {0} of {1} fleets occupied. Wait {2} for next try..'.format(
                 len(self.empire.friendly_fleet()),
                 self.properties.get_amount_max_fleets(),
