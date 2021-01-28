@@ -240,10 +240,33 @@ class OGame(object):
             if planet_name == name:
                 return id
 
+    def name_by_planet_id(self, id):
+        for planet_name, planet_id in zip(OGame.planet_names(self), OGame.planet_ids(self)):
+            if planet_id == id:
+                return planet_name
+
     def id_by_moon_name(self, name):
         for moon_name, id in zip(OGame.moon_names(self), OGame.moon_ids(self)):
             if moon_name == name:
                 return id
+
+    def name_by_moon_id(self, id):
+        for moon_name, moon_id in zip(OGame.moon_names(self), OGame.moon_ids(self)):
+            if moon_id == id:
+                return moon_name
+
+    def name_by_moon_planet_id(self, id):
+        try:
+            moon_name = self.name_by_planet_id(id)
+            planet_name = self.name_by_moon_id(id)
+
+            if moon_name is not None:
+                return moon_name
+            else:
+                return planet_name
+        except:
+            self.relogin_script()
+            return self.name_by_moon_planet_id(id)
 
     def moon_ids(self):
         moons = []
