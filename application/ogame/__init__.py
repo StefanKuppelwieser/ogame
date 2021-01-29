@@ -255,6 +255,11 @@ class OGame(object):
             if moon_id == id:
                 return moon_name
 
+    def id_by_planet_moon_cords(self, cords):
+        for planet_moon in self.all_planet_ids():
+            if cords == self.celestial_coordinates(planet_moon):
+                return planet_moon
+
     def name_by_moon_planet_id(self, id):
         try:
             moon_name = self.name_by_planet_id(id)
