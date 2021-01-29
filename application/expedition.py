@@ -169,6 +169,18 @@ class Expedition(object):
 
                 # choice planet
                 if tmp_space < cargos.total_space:
+
+                    # check enogugh deut on planet
+                    if self.empire.resources(planet).deuterium < 10000:
+                        message = 'Not enough deuterium on planet {0} {1} to send expedition. Go to next planet'.format(
+                            planet,
+                            self.empire.name_by_moon_planet_id(planet)
+                        )
+                        logger.info(message)
+                        self.telegram.send_message(message)
+                        continue
+
+                    # save planet if there is enough deut
                     tmp_cargos = cargos
                     tmp_space = cargos.total_space
                     tmp_source_planet = planet
@@ -188,16 +200,6 @@ class Expedition(object):
                     self.empire.celestial_coordinates(tmp_source_planet)[0],
                     int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-self.properties.EXPEDITIONS_RANGE, self.properties.EXPEDITIONS_RANGE)),
                     16)
-
-                #check enogugh deut on planet
-                if self.empire.resources(tmp_source_planet).deuterium < 10000:
-                    message = 'Not enough deut on planet {0} {1} to send expedition'.format(
-                        tmp_source_planet,
-                        self.empire.name_by_moon_planet_id(tmp_source_planet)
-                    )
-                    logger.info(message)
-                    self.telegram.send_message(message)
-                    continue
 
                 response = self.empire.send_fleet(
                     mission=mission.expedition,
