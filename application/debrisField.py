@@ -94,7 +94,7 @@ class DebrisField(object):
                             #self.telegram.send_message(message)
 
                     # Remove item
-                    scanned_planets.pop(0)
+                    # scanned_planets.pop(0)
             except:
                 logger.error('An error occurred in auto_collect_debris_fields(). Restart auto_collect_debris_fields()')
 
