@@ -158,12 +158,18 @@ class Expedition(object):
             tmp_space = 0
             tmp_source_planet = None
             tmp_cargos = None
+            planets = []
 
             # check free slot
             self.check_free_expedition_slots()
 
+            if self.properties.EXPEDITIONS_USE_LIST is True:
+                planets = self.properties.get_expeditions_list()
+            else:
+                planets = self.empire.all_planet_ids()
+
             # get best cords for expedition
-            for planet in self.empire.all_planet_ids():
+            for planet in planets:
                 # get cargos
                 cargos = self.get_amount_cargos(planet)
 
@@ -171,10 +177,11 @@ class Expedition(object):
                 if tmp_space < cargos.total_space:
 
                     # check enogugh deut on planet
-                    if self.empire.resources(planet).deuterium < 10000:
-                        message = 'Not enough deuterium on planet {0} {1} to send expedition. Go to next planet'.format(
+                    if self.empire.resources(planet).deuterium < 20000:
+                        message = 'Not enough deuterium on planet {1} {2} to send expedition. Go to next planet'.format(
                             planet,
-                            self.empire.name_by_moon_planet_id(planet)
+                            self.empire.name_by_moon_planet_id(planet),
+                            self.empire.celestial_coordinates(planet)
                         )
                         logger.info(message)
                         self.telegram.send_message(message)

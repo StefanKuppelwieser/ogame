@@ -1,3 +1,5 @@
+from ogame import OGame
+
 class Properties(object):
     ########################
     # bots                 #
@@ -190,6 +192,9 @@ class Properties(object):
 
     EXPEDITIONS_RANGE = 3
 
+    EXPEDITIONS_USE_LIST = True
+
+
     #################################
     # Properties 4 debris           #
     #################################
@@ -240,3 +245,24 @@ class Properties(object):
             return self.get_amount_max_fleets() - self.get_amount_expeditions_fleets()
         else:
             return self.get_amount_max_fleets()
+
+    def get_expeditions_list(self):
+        planets_moons = []
+
+        planets_moons.append(self.empire.planet_ids()[0]) # Millet
+        planets_moons.append(self.empire.planet_ids()[1]) # Ortovox
+        planets_moons.append(self.empire.planet_ids()[2]) # Mammut
+        planets_moons.append(self.empire.planet_ids()[3]) # Arcteryx
+        planets_moons.append(self.empire.planet_ids()[4]) # Petzl
+        #planets_moons.append(self.empire.planet_ids()[5]) # Vaude
+        planets_moons.append(self.empire.planet_ids()[6]) # Julbo
+
+        planets_moons.append(self.empire.moon_ids()[0]) # Millet - Tatonka
+        planets_moons.append(self.empire.moon_ids()[1]) # Ortovox - Salewa
+        planets_moons.append(self.empire.moon_ids()[2]) # Mammut - Fjaellraeven
+        planets_moons.append(self.empire.moon_ids()[3]) # Arcteryx - Primus
+        planets_moons.append(self.empire.moon_ids()[4]) # Petzl - Icebreaker
+        #planets_moons.append(self.empire.moon_ids()[5]) # Vaude - Patagonia
+        planets_moons.append(self.empire.moon_ids()[6]) # Julbo - Edelrid
+
+        return planets_moons
