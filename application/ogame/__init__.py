@@ -790,6 +790,12 @@ class OGame(object):
             arrival_times = [datetime.fromtimestamp(timestamp) for timestamp in arrival_times]
 
             destinations = self.fleet_coordinates(eventFleet, 'destCoords')
+            moon_attacked = []
+            for moon_attack, destination in zip(eventFleet, destinations):
+                if moon_attack.find(title='Mond') is None:
+                    pass
+                else:
+                    destination[3] = 3
             origins = self.fleet_coordinates(eventFleet, 'coordsOrigin')
 
             player_ids = [int(id.find(class_='sendMail').a['data-playerid']) for id in eventFleet]
