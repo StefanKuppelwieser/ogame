@@ -137,7 +137,7 @@ class Saving(object):
                 planet_to_save = [3, 162, 4, 1] #Thx to PResident Neso
                 for new_attack in new_attacks:
 
-                    if new_attack.destination[3] == 3:
+                    if new_attack.destination[3] == 3 and False:
 
                         # check deut
                         if self.has_enough_deuterium(new_attack.destination):
