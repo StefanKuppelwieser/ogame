@@ -6,8 +6,8 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = False
-    BOT_DEBRIS = False
+    BOT_EXPEDITIONS = True
+    BOT_DEBRIS = True
 
     ########################
     # Properties 4 probes  #
@@ -169,7 +169,7 @@ class Properties(object):
     #################################
     # Properties 4 saving           #
     #################################
-    SAVING_RECHECK_ATTACKS = 5
+    SAVING_RECHECK_ATTACKS = 180
 
     SAVING_SEND_PROBES = 11
 
