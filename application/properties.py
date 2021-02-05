@@ -6,8 +6,8 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = True
-    BOT_DEBRIS = True
+    BOT_EXPEDITIONS = False
+    BOT_DEBRIS = False
 
     ########################
     # Properties 4 probes  #
@@ -169,7 +169,7 @@ class Properties(object):
     #################################
     # Properties 4 saving           #
     #################################
-    SAVING_RECHECK_ATTACKS = 180
+    SAVING_RECHECK_ATTACKS = 5
 
     SAVING_SEND_PROBES = 11
 
@@ -186,13 +186,14 @@ class Properties(object):
     #################################
     EXPEDITIONS_RECHECK = 120
     EXPEDITIONS_DURATION = 1
+    EXPEDITIONS_BONUS = 4 # +3 class bonus +1 admiral
     EXPEDITIONS_ONLY_LARGE_CARGOS = True
     EXPEDITIONS_LARGE_CARGOS = 100
     EXPEDITIONS_SMALL_CARGOS = 200
 
     EXPEDITIONS_RANGE = 3
 
-    EXPEDITIONS_USE_LIST = True
+    EXPEDITIONS_USE_LIST = False
 
 
     #################################
@@ -217,14 +218,13 @@ class Properties(object):
     def get_amount_max_fleets(self):
         # default fleet is + 1; change if you have an other default value
         # + 0 because one slot will be always free for an emergency
-        maxFleets = self.empire.research().computer.level + 0
+        maxFleets = self.empire.research().computer.level + 0 + 2 # +2 admiral bonus
         return maxFleets
 
     # calc amount for expedtions
     def get_amount_expeditions_fleets(self):
         level = self.empire.research().astrophysics.level
-        bonus = 3
-        fleets = 0 + bonus
+        fleets = 0 + self.EXPEDITIONS_BONUS
 
         if level >= 25:
             fleets += 4
