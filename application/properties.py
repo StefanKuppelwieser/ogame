@@ -6,8 +6,43 @@ class Properties(object):
     ########################
     BOT_PROBE = False
     BOT_SAVE = True
-    BOT_EXPEDITIONS = False
-    BOT_DEBRIS = False
+    BOT_EXPEDITIONS = True
+    BOT_DEBRIS = True
+
+    #################################
+    # Properties 4 saving           #
+    #################################
+    SAVING_RECHECK_ATTACKS = 180
+
+    SAVING_SEND_PROBES = 11
+
+    SAVING_RANDOM_TEXT = [
+        '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',
+        'Ein Witz aus meiner Witzkiste: "Sagt ein Mann zu seinem Freund: „Meine Frau macht eine dreiwöchige Diät.“ „Und wie viel hat sie schon verloren?“ „Zwei Wochen.“" Aber mich stellt sich nun die Frage wie ich euch helfen kann?',
+        'Ist bei euch das Wetter auch so herrlich wie bei mir? Wie kann ich denn weiterhelfen?',
+        'Darf ich dir ein Geheimnis erzählen? Ich habe einen Joghurt fallen gelassen. Er war nicht mehr haltbar. Wie kann ich euch weiterhelfen?',
+        'Ist denn schon Weihnachten? Wie kann ich euch helfen?'
+    ]
+
+    #################################
+    # Properties 4 expeditions      #
+    #################################
+    EXPEDITIONS_RECHECK = 120
+    EXPEDITIONS_DURATION = 1
+    EXPEDITIONS_BONUS = 4 # +3 class bonus +1 admiral
+    EXPEDITIONS_ONLY_LARGE_CARGOS = True
+    EXPEDITIONS_LARGE_CARGOS = 100
+    EXPEDITIONS_SMALL_CARGOS = 200
+
+    EXPEDITIONS_RANGE = 3
+
+    EXPEDITIONS_USE_LIST = False
+
+
+    #################################
+    # Properties 4 debris           #
+    #################################
+    DEBRIS_RECHECK = 90
 
     ########################
     # Properties 4 probes  #
@@ -166,41 +201,6 @@ class Properties(object):
     PROBES_GALAXY_RANGE = [2, 2]  # [1, 6]
     PROBES_SYSTEM_RANGE = [1, 499]  # [1, 499]
 
-    #################################
-    # Properties 4 saving           #
-    #################################
-    SAVING_RECHECK_ATTACKS = 5
-
-    SAVING_SEND_PROBES = 11
-
-    SAVING_RANDOM_TEXT = [
-        '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',
-        'Ein Witz aus meiner Witzkiste: "Sagt ein Mann zu seinem Freund: „Meine Frau macht eine dreiwöchige Diät.“ „Und wie viel hat sie schon verloren?“ „Zwei Wochen.“" Aber mich stellt sich nun die Frage wie ich euch helfen kann?',
-        'Ist bei euch das Wetter auch so herrlich wie bei mir? Wie kann ich denn weiterhelfen?',
-        'Darf ich dir ein Geheimnis erzählen? Ich habe einen Joghurt fallen gelassen. Er war nicht mehr haltbar. Wie kann ich euch weiterhelfen?',
-        'Ist denn schon Weihnachten? Wie kann ich euch helfen?'
-    ]
-
-    #################################
-    # Properties 4 expeditions      #
-    #################################
-    EXPEDITIONS_RECHECK = 120
-    EXPEDITIONS_DURATION = 1
-    EXPEDITIONS_BONUS = 4 # +3 class bonus +1 admiral
-    EXPEDITIONS_ONLY_LARGE_CARGOS = True
-    EXPEDITIONS_LARGE_CARGOS = 100
-    EXPEDITIONS_SMALL_CARGOS = 200
-
-    EXPEDITIONS_RANGE = 3
-
-    EXPEDITIONS_USE_LIST = False
-
-
-    #################################
-    # Properties 4 debris           #
-    #################################
-    DEBRIS_RECHECK = 90
-
 
     def __init__(self, empire):
         self.empire = empire
@@ -218,8 +218,8 @@ class Properties(object):
     def get_amount_max_fleets(self):
         # default fleet is + 1; change if you have an other default value
         # + 0 because one slot will be always free for an emergency
-        maxFleets = self.empire.research().computer.level + 0 + 2 # +2 admiral bonus
-        return maxFleets
+        # +2 admiral bonus
+        return self.empire.research().computer.level + 0 + 2
 
     # calc amount for expedtions
     def get_amount_expeditions_fleets(self):

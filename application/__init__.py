@@ -89,7 +89,6 @@ if __name__ == '__main__':
     telegram = utils.telegram
     properties = Properties(empire)
 
-
     try:
         format = "%(asctime)s: %(message)s"
         logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
@@ -123,7 +122,6 @@ if __name__ == '__main__':
             bot_debris = threading.Thread(target=run_debris_bot, args=(properties,))
             threads.append(bot_debris)
             bot_debris.start()
-
 
         for index, thread in enumerate(threads):
             logging.info("Main    : before joining thread %d.", index)

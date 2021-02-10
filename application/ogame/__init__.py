@@ -500,7 +500,7 @@ class OGame(object):
             levels = []
             try:
                 for level in bs4.find_all(class_='level'):
-                    levels.append(int(level['data-value']) + int(level['data-bonus']))
+                    levels.append(int(level['data-value']) + int(level['data-bonus'].replace('(','').replace(')','').replace('+','')))
             except:
                 pass
             status = [status['data-status'] for status in bs4.find_all('li', {'class': 'technology'})]

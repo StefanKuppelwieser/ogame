@@ -198,8 +198,8 @@ class Expedition(object):
             # check pathfinder
             # self.build_pathfinder(tmp_source_planet)
 
-            # build probe
-            self.build_probe(tmp_source_planet)
+            ## build probe
+            # self.build_probe(tmp_source_planet)
 
             # send fleet
             try:
@@ -208,13 +208,15 @@ class Expedition(object):
                     int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-self.properties.EXPEDITIONS_RANGE, self.properties.EXPEDITIONS_RANGE)),
                     16)
 
+                1 if self.empire.ships(tmp_source_planet).espionage_probe.amount > 0 else 0
+
                 response = self.empire.send_fleet(
                     mission=mission.expedition,
                     id=tmp_source_planet,
                     where=target,
                     ships=[
-                        ships.explorer(1),
-                        ships.espionage_probe(1),
+                        ships.explorer(1 if self.empire.ships(tmp_source_planet).explorer.amount > 0 else 0),
+                        ships.espionage_probe(1 if self.empire.ships(tmp_source_planet).espionage_probe.amount > 0 else 0),
                         ships.large_transporter(tmp_cargos.large_cargos),
                         ships.small_transporter(tmp_cargos.small_cargos),
                         ships.reaper(battleships.amount_reaper),

@@ -8,7 +8,7 @@ from ogame.constants import mission, ships, coordinates, destination
 class DebrisField(object):
     def __init__(self, properties, empire, telegram, utils):
         self.properties = properties
-        self.empire: OGame = empire
+        self.empire = empire
         self.telegram = telegram
         self.utils = utils
 

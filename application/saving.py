@@ -148,8 +148,8 @@ class Saving(object):
                         #
                             pass
 
-                        # safe battleships
-                        self.safe_battleships(new_attack.destination)
+                        ## safe battleships
+                        #self.safe_battleships(new_attack.destination)
 
                         # # save from moon to planet
                         #     # safe battle ships
