@@ -352,16 +352,20 @@ class OGame(object):
         def to_int(string):
             return int(float(string.replace('M', '000').replace('n', '')))
 
-        class Resources:
-            resources = [bs4.find(id='resources_metal')['data-raw'],
-                         bs4.find(id='resources_crystal')['data-raw'],
-                         bs4.find(id='resources_deuterium')['data-raw']]
-            resources = [to_int(resource) for resource in resources]
-            metal = resources[0]
-            crystal = resources[1]
-            deuterium = resources[2]
-            darkmatter = to_int(bs4.find(id='resources_darkmatter')['data-raw'])
-            energy = to_int(bs4.find(id='resources_energy')['data-raw'])
+        try:
+            class Resources:
+                resources = [bs4.find(id='resources_metal')['data-raw'],
+                             bs4.find(id='resources_crystal')['data-raw'],
+                             bs4.find(id='resources_deuterium')['data-raw']]
+                resources = [to_int(resource) for resource in resources]
+                metal = resources[0]
+                crystal = resources[1]
+                deuterium = resources[2]
+                darkmatter = to_int(bs4.find(id='resources_darkmatter')['data-raw'])
+                energy = to_int(bs4.find(id='resources_energy')['data-raw'])
+        except:
+            self.relogin_script()
+            return self.resources(id)
 
         return Resources
 
