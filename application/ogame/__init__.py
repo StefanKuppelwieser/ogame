@@ -161,13 +161,13 @@ class OGame(object):
                 url=self.index_php + 'page=componentOnly&component=eventList&action=fetchEventBox&ajax=1&asJson=1',
                 headers={'X-Requested-With': 'XMLHttpRequest'}
             ).json()
+            if 0 < response['hostile']:
+                return True
+            else:
+                return False
         except:
             self.relogin_script()
             return self.attacked()
-        if 0 < response['hostile']:
-            return True
-        else:
-            return False
 
 
     def get_attacks(self):
@@ -204,13 +204,13 @@ class OGame(object):
                 url=self.index_php + 'page=componentOnly&component=eventList&action=fetchEventBox&ajax=1&asJson=1',
                 headers={'X-Requested-With': 'XMLHttpRequest'}
             ).json()
+            if 0 < response['friendly']:
+                return True
+            else:
+                return False
         except:
             self.relogin_script()
             return self.friendly()
-        if 0 < response['friendly']:
-            return True
-        else:
-            return False
 
     def characterclass(self):
         character = self.landing_page.find_partial(class_='sprite characterclass medium')
