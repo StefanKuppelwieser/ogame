@@ -841,23 +841,23 @@ class OGame(object):
     def send_message(self, player_id, msg):
         try:
             response = self.session.get(self.index_php + 'page=chat').text
+            chat_token = re.search('var ajaxChatToken = "(.*)"', response).group(1)
+            response = self.session.post(
+                url=self.index_php + 'page=ajaxChat',
+                data={'playerId': player_id,
+                      'text': msg,
+                      'mode': 1,
+                      'ajax': 1,
+                      'token': chat_token},
+                headers={'X-Requested-With': 'XMLHttpRequest'}
+            ).json()
+            if 'OK' in response['status']:
+                return True
+            else:
+                return False
         except:
             self.relogin_script()
             return self.send_message(player_id, msg)
-        chat_token = re.search('var ajaxChatToken = "(.*)"', response).group(1)
-        response = self.session.post(
-            url=self.index_php + 'page=ajaxChat',
-            data={'playerId': player_id,
-                  'text': msg,
-                  'mode': 1,
-                  'ajax': 1,
-                  'token': chat_token},
-            headers={'X-Requested-With': 'XMLHttpRequest'}
-        ).json()
-        if 'OK' in response['status']:
-            return True
-        else:
-            return False
 
     def spyreports(self, lastDateOfReport=None, firstpage=1, lastpage=30):
         # get links for the last 30 pages

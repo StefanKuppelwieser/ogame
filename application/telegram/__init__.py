@@ -7,10 +7,16 @@ class Telegram(object):
         self.URL = "https://api.telegram.org/bot{}".format(self.TOKEN)
 
     def get_url(self, url):
-        response = requests.get(url)
-        content = response.content.decode("utf8")
-        return content
+        try:
+            response = requests.get(url)
+            content = response.content.decode("utf8")
+            return content
+        except:
+            return self.get_url(url)
 
     def send_message(self, text):
-        url = self.URL + "/sendMessage?text={}&chat_id={}".format(text, self.CHAT)
-        self.get_url(url)
+        try:
+            url = self.URL + "/sendMessage?text={}&chat_id={}".format(text, self.CHAT)
+            self.get_url(url)
+        except:
+            return self.send_message(text)
