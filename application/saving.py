@@ -5,7 +5,6 @@ from loguru import logger
 
 from ogame.constants import coordinates, status, ships, mission
 
-
 class Saving(object):
     def __init__(self, properties, empire, telegram, utils):
         self.properties = properties
@@ -39,46 +38,70 @@ class Saving(object):
         self.telegram.send_message(message)
         return False
 
-    def safe_battleships(self, attacked_planet):
-        ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(attacked_planet))
+    def safe_battleships(self, planet_in_attack, planet_4_saving=None):
+        ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(planet_in_attack))#
+        response = False
 
-        park_planet = None
-        if attacked_planet[3] == 3:
-            park_planet = attacked_planet[:]
-            park_planet[3] = 1
+        if planet_4_saving is None:
+            if planet_in_attack[3] == 3:
+                planet_4_saving = planet_in_attack[:]
+                planet_4_saving[3] = 1
+            else:
+                planet_4_saving = planet_in_attack[:]
+                planet_4_saving[3] = 3
+
+            response = self.empire.send_fleet(
+                mission.park,
+                self.empire.id_by_planet_moon_cords(planet_in_attack),
+                planet_4_saving,
+                [
+                    ships.light_fighter(ships_to_save.light_fighter.amount),
+                    ships.heavy_fighter(ships_to_save.heavy_fighter.amount),
+                    ships.cruiser(ships_to_save.cruiser.amount),
+                    ships.battleship(ships_to_save.battleship.amount),
+                    ships.interceptor(ships_to_save.interceptor.amount),
+                    ships.bomber(ships_to_save.bomber.amount),
+                    ships.destroyer(ships_to_save.destroyer.amount),
+                    ships.deathstar(ships_to_save.deathstar.amount),
+                    ships.reaper(ships_to_save.reaper.amount),
+                    ships.explorer(ships_to_save.explorer.amount),
+                    ships.colonyShip(ships_to_save.colonyShip.amount),
+                    ships.recycler(ships_to_save.recycler.amount),
+                    ships.espionage_probe(ships_to_save.espionage_probe.amount),
+                ]
+            )
         else:
-            park_planet = attacked_planet[:]
-            park_planet[3] = 3
-
-        response = self.empire.send_fleet(
-            self.empire.id_by_planet_moon_cords(attacked_planet),
-            self.empire.id_by_planet_moon_cords(park_planet),
-            [
-                ships.light_fighter(ships_to_save.light_fighter.amount),
-                ships.heavy_fighter(ships_to_save.heavy_fighter.amount),
-                ships.cruiser(ships_to_save.cruiser.amount),
-                ships.battleship(ships_to_save.battleship.amount),
-                ships.interceptor(ships_to_save.interceptor.amount),
-                ships.bomber(ships_to_save.bomber.amount),
-                ships.destroyer(ships_to_save.destroyer.amount),
-                ships.deathstar(ships_to_save.deathstar.amount),
-                ships.explorer(ships_to_save.explorer.amount),
-                ships.colonyShip(ships_to_save.colonyShip.amount),
-                ships.recycler(ships_to_save.recycler.amount),
-                ships.espionage_probe(ships_to_save.espionage_probe.amount),
-            ]
-        )
+            response = self.empire.send_fleet(
+                mission.transport,
+                self.empire.id_by_planet_moon_cords(planet_in_attack),
+                planet_4_saving,
+                [
+                    ships.light_fighter(ships_to_save.light_fighter.amount),
+                    ships.heavy_fighter(ships_to_save.heavy_fighter.amount),
+                    ships.cruiser(ships_to_save.cruiser.amount),
+                    ships.battleship(ships_to_save.battleship.amount),
+                    ships.interceptor(ships_to_save.interceptor.amount),
+                    ships.bomber(ships_to_save.bomber.amount),
+                    ships.destroyer(ships_to_save.destroyer.amount),
+                    ships.deathstar(ships_to_save.deathstar.amount),
+                    ships.reaper(ships_to_save.reaper.amount),
+                    ships.explorer(ships_to_save.explorer.amount),
+                    ships.colonyShip(ships_to_save.colonyShip.amount),
+                    ships.recycler(ships_to_save.recycler.amount),
+                    ships.espionage_probe(ships_to_save.espionage_probe.amount),
+                ],
+                speed=1
+            )
 
         if response is True:
             message = 'All battleships are saved! Send all ships from {0} {1} to {2} {3}'.format(
-                attacked_planet,
-                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(attacked_planet)),
-                park_planet,
-                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(park_planet))
+                planet_in_attack,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_in_attack)),
+                planet_4_saving,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_4_saving))
             )
             logger.warning(message)
             self.telegram.send_message(message)
-
 
     def auto_run_saving(self):
 
@@ -97,6 +120,10 @@ class Saving(object):
                 # Add attack to cache list
                 new_attacks = []
                 for current_attack in self.empire.hostile_fleet():
+                    # skip if attack is under 5 minutes
+                    diff = self.utils.get_diff_minutes(current_attack.arrival)
+                    if diff <= 10:
+                        continue
                     is_in_list = False
                     for old_attack in enemies_cache:
                         if old_attack.arrival == current_attack.arrival:
@@ -134,7 +161,6 @@ class Saving(object):
                 #         continue
 
                 # check if planet has a moon or planet
-                planet_to_save = [3, 162, 4, 1] #Thx to PResident Neso
                 for new_attack in new_attacks:
 
                     if new_attack.destination[3] == 3 and False:
@@ -151,19 +177,18 @@ class Saving(object):
                         # safe battleships
                         self.safe_battleships(new_attack.destination)
 
-                        # # save from moon to planet
-                        #     # safe battle ships
-                        #     # safe ressources
-
                     if new_attack.destination[3] == 1:
                         has_planet_a_moon = self.has_planet_moon(new_attack.destination)
-                        #safe from planet to moon
-                            # safe battle ships
-                            # safe ressources
-                        # ELSE
-                            # safe to elnappo
-                            # safe battle ships
-                            # safe ressources
+
+                        if has_planet_a_moon is True:
+                            planet_4_saving = new_attack.destination[:]
+                            planet_4_saving[3] = 3 #moon
+
+                            self.safe_battleships(new_attack.destination)
+                        else:
+                            self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+
+                        # safe resources
                         pass
 
                 # save ressources
