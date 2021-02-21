@@ -72,7 +72,7 @@ class Saving(object):
             )
         else:
             response = self.empire.send_fleet(
-                mission.transport,
+                mission.park_ally,
                 self.empire.id_by_planet_moon_cords(planet_in_attack),
                 planet_4_saving,
                 [
@@ -90,7 +90,8 @@ class Saving(object):
                     ships.recycler(ships_to_save.recycler.amount),
                     ships.espionage_probe(ships_to_save.espionage_probe.amount),
                 ],
-                speed=1
+                speed=1,
+                holdingtime=0
             )
 
         if response is True:
@@ -102,6 +103,111 @@ class Saving(object):
             )
             logger.warning(message)
             self.telegram.send_message(message)
+
+    def save_ressources(self, planet_in_attack, planet_4_saving=None):
+        # save ressources
+        response = False
+        resources = self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack))
+        ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(planet_in_attack))
+
+        if planet_4_saving is None:
+            if planet_in_attack[3] == 3:
+                planet_4_saving = planet_in_attack[:]
+                planet_4_saving[3] = 1
+            else:
+                planet_4_saving = planet_in_attack[:]
+                planet_4_saving[3] = 3
+            pass
+
+            # check if moon has transpoerts
+            ## get all transporters
+            ## wait
+
+            while (resources.metal + resources.crystal + resources.deuterium) >= 50000:
+
+                # define mission type
+                total_ress = resources.metal + resources.crystal + resources.deuterium
+                total_cargo_space = ships_to_save.small_transporter.amount * self.properties.PROBES_SMALL_CARGOS\
+                                    + ships_to_save.large_transporter.amount * self.properties.PROBES_LARGE_CARGOS
+                mission_type = mission.transport
+                metal = resources.metal
+                crystal = resources.crystal
+                deuterium = resources.deuterium
+
+                if total_ress <= total_cargo_space:
+                    mission_type = mission.park
+                else:
+                    # calculate space for resources
+                    if total_cargo_space > resources.deuterium and resources.deuterium > 10000:
+                        deuterium = resources.deuterium - 10000
+                    if (total_cargo_space - deuterium) > resources.crystal:
+                        crystal = resources.crystal
+                    else:
+                        crystal = total_cargo_space - deuterium
+                    if (total_cargo_space - (deuterium + crystal)) > resources.metal:
+                        metal = resources.metal
+                    else:
+                        metal = total_cargo_space - (deuterium + crystal)
+
+                response = self.empire.send_fleet(
+                    mission_type,
+                    self.empire.id_by_planet_moon_cords(planet_in_attack),
+                    planet_4_saving,
+                    [
+                        ships.small_transporter(ships_to_save.small_transporter.amount),
+                        ships.large_transporter(ships_to_save.large_transporter.amount),
+                    ],
+                    resources=(metal, crystal, deuterium),
+                )
+
+                if response is True:
+                    message = 'Send {0} small {1} large cargos with {2} metal, {3} crystal and {4} deut  from {5} {6} to {7} {8}. It are still {9} metal, {10} crystal and {11} deut'.format(
+                        ships_to_save.small_transporter.amount,
+                        ships_to_save.large_transporter.amount,
+                        metal,
+                        crystal,
+                        deuterium,
+                        planet_in_attack,
+                        self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_in_attack)),
+                        planet_4_saving,
+                        self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_4_saving)),
+                        self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack)).metal,
+                        self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack)).crystal,
+                        self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack)).deuterium
+                    )
+                    logger.warning(message)
+                    self.telegram.send_message(message)
+
+                if mission_type != mission.park:
+                    logger.info('Check if transpoertes are back for saving. Next run in {0} seconds.'.format('90'))
+                    time.sleep(90)
+                    resources = self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack))
+                    ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(planet_in_attack))
+
+        else:
+            response = self.empire.send_fleet(
+                mission.park_ally,
+                self.empire.id_by_planet_moon_cords(planet_in_attack),
+                planet_4_saving,
+                [
+                    ships.small_transporter(ships_to_save.small_transporter.amount),
+                    ships.large_transporter(ships_to_save.large_transporter.amount),
+                ],
+                resources=(resources.metal, resources.crystal, resources.deuterium),
+                speed=1,
+                holdingtime=0
+            )
+
+        if response is True:
+            message = 'All cargos are saved! Send all ships from {0} {1} to {2} {3}'.format(
+                planet_in_attack,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_in_attack)),
+                planet_4_saving,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_4_saving))
+            )
+            logger.warning(message)
+            self.telegram.send_message(message)
+
 
     def auto_run_saving(self):
 
@@ -174,7 +280,7 @@ class Saving(object):
                         #
                             pass
 
-                        # safe battleships
+                        self.safe_battleships(new_attack.destination)
                         self.safe_battleships(new_attack.destination)
 
                     if new_attack.destination[3] == 1:
@@ -185,25 +291,10 @@ class Saving(object):
                             planet_4_saving[3] = 3 #moon
 
                             self.safe_battleships(new_attack.destination)
+                            self.save_ressources(new_attack.destination)
                         else:
                             self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
-
-                        # safe resources
-                        pass
-
-                # save ressources
-
-                    # Nachricht raus an Telegram mit start des savens
-                    # checken ob der planet/mond einen mond/planet hat
-                    # Alle transporter holen
-                    # Todestern einzeln an den anderen planeten senden
-                    # Alle Flotten an den planeten senden. Voll machen mit metall, dann kristall, dann deut
-                    # while aller Transporter
-                        # Alle resourcen schicken
-                        # beim letzten loop transport stationieren statt transport
-                    # complett gesaved
-                    # Nachricht an Telegram raus
-
+                            self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
 
                 # add new attacks to cache
                 enemies_cache.extend(new_attacks)
@@ -213,4 +304,4 @@ class Saving(object):
                 enemies_cache = []
 
             # wait for next check
-            #self.wait_for_next_run()
+            self.wait_for_next_run()
