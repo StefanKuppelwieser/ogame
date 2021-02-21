@@ -272,7 +272,7 @@ class Saving(object):
                 # check if planet has a moon or planet
                 for new_attack in enemies_cache:
 
-                    if new_attack.destination[3] == 3 and False:
+                    if new_attack.destination[3] == 3:
 
                         # check deut
                         if self.has_enough_deuterium(new_attack.destination):
