@@ -284,7 +284,7 @@ class Saving(object):
                             pass
 
                         self.safe_battleships(new_attack.destination)
-                        self.safe_battleships(new_attack.destination)
+                        self.save_ressources(new_attack.destination)
 
                     if new_attack.destination[3] == 1:
                         has_planet_a_moon = self.has_planet_moon(new_attack.destination)
