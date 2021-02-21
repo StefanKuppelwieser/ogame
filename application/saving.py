@@ -251,6 +251,9 @@ class Saving(object):
                     logger.warning(message)
                     self.telegram.send_message(message)
 
+                # add new attacks to cache
+                enemies_cache.extend(new_attacks)
+
                 # # send probe
                 # if self.empire.send_fleet(mission.spy, self.empire.id_by_planet_moon_cords(new_attack.destination), new_attack.origin, [ships.espionage_probe(self.properties.SAVING_SEND_PROBES)]):
                 #     # get information about last spy
@@ -267,7 +270,7 @@ class Saving(object):
                 #         continue
 
                 # check if planet has a moon or planet
-                for new_attack in new_attacks:
+                for new_attack in enemies_cache:
 
                     if new_attack.destination[3] == 3 and False:
 
@@ -295,9 +298,6 @@ class Saving(object):
                         else:
                             self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
                             self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
-
-                # add new attacks to cache
-                enemies_cache.extend(new_attacks)
 
             else:
                 # reset list
