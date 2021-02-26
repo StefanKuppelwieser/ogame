@@ -1007,33 +1007,29 @@ class OGame(object):
     def send_fleet(self, mission, id, where, ships, resources=(0, 0, 0), speed=10, holdingtime=0):
         try:
             response = self.session.get(self.index_php + 'page=ingame&component=fleetdispatch&cp={}'.format(id)).text
-        except:
-            self.relogin_script()
-            return self.send_fleet(mission, id, where, ships, resources, speed, holdingtime)
-        sendfleet_token = re.search('var fleetSendingToken = "(.*)"', response).group(1)
-        form_data = {'token': sendfleet_token}
+            sendfleet_token = re.search('var fleetSendingToken = "(.*)"', response).group(1)
+            form_data = {'token': sendfleet_token}
 
-        for ship in ships:
-            ship_type = 'am{}'.format(ship[0])
-            form_data.update({ship_type: ship[1]})
+            for ship in ships:
+                ship_type = 'am{}'.format(ship[0])
+                form_data.update({ship_type: ship[1]})
 
-        form_data.update({'galaxy': where[0],
-                          'system': where[1],
-                          'position': where[2],
-                          'type': where[3],
-                          'metal': resources[0],
-                          'crystal': resources[1],
-                          'deuterium': resources[2],
-                          'prioMetal': 1,
-                          'prioCrystal': 2,
-                          'prioDeuterium': 3,
-                          'mission': mission,
-                          'speed': speed,
-                          'retreatAfterDefenderRetreat': 0,
-                          'union': 0,
-                          'holdingtime': holdingtime})
+            form_data.update({'galaxy': where[0],
+                              'system': where[1],
+                              'position': where[2],
+                              'type': where[3],
+                              'metal': resources[0],
+                              'crystal': resources[1],
+                              'deuterium': resources[2],
+                              'prioMetal': 1,
+                              'prioCrystal': 2,
+                              'prioDeuterium': 3,
+                              'mission': mission,
+                              'speed': speed,
+                              'retreatAfterDefenderRetreat': 0,
+                              'union': 0,
+                              'holdingtime': holdingtime})
 
-        try:
             response = self.session.post(
                 url=self.index_php + 'page=ingame&component=fleetdispatch&action=sendFleet&ajax=1&asJson=1',
                 data=form_data,
@@ -1042,6 +1038,7 @@ class OGame(object):
         except:
             self.relogin_script()
             return self.send_fleet(mission, id, where, ships, resources, speed, holdingtime)
+
         return response['success']
 
     def return_fleet(self, fleet_id):
