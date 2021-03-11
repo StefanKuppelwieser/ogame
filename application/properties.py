@@ -186,8 +186,8 @@ class Properties(object):
     PEROBES_LOOT = 0.75 #75 percent
     PROBES_MIN_SMALL_CARGOS = 30
 
-    PROBES_SMALL_CARGOS = 7000
-    PROBES_LARGE_CARGOS = 35000
+    PROBES_SMALL_CARGOS = 8000
+    PROBES_LARGE_CARGOS = 40000
 
     # if true, all inactive planets will be scanned
     PROBES_DELETE_OLD_SPY_REPORTS = True
