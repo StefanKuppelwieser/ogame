@@ -185,6 +185,31 @@ class Saving(object):
                     ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(planet_in_attack))
 
         else:
+
+            # define mission type
+            total_ress = resources.metal + resources.crystal + resources.deuterium
+            total_cargo_space = ships_to_save.small_transporter.amount * self.properties.PROBES_SMALL_CARGOS \
+                                + ships_to_save.large_transporter.amount * self.properties.PROBES_LARGE_CARGOS
+            metal = resources.metal
+            crystal = resources.crystal
+            deuterium = resources.deuterium
+
+            # calculate space for resources
+            if total_cargo_space > resources.deuterium:
+                if resources.deuterium > 100000:
+                    deuterium = (resources.deuterium - 100000) #-10000 4 fuel
+                else:
+                    deuterium = 0
+            if (total_cargo_space - deuterium) > resources.crystal:
+                crystal = resources.crystal
+            else:
+                crystal = total_cargo_space - deuterium
+            if (total_cargo_space - (deuterium + crystal)) > resources.metal:
+                metal = resources.metal
+            else:
+                metal = total_cargo_space - (deuterium + crystal)
+
+
             response = self.empire.send_fleet(
                 mission.park_ally,
                 self.empire.id_by_planet_moon_cords(planet_in_attack),
@@ -193,7 +218,7 @@ class Saving(object):
                     ships.small_transporter(ships_to_save.small_transporter.amount),
                     ships.large_transporter(ships_to_save.large_transporter.amount),
                 ],
-                resources=(resources.metal, resources.crystal, resources.deuterium),
+                resources=(metal, crystal, deuterium),
                 speed=1,
                 holdingtime=0
             )

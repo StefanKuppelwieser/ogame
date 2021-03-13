@@ -723,15 +723,40 @@ class OGame(object):
         raise NotImplementedError("function not implemented yet PLS contribute")
 
     def fleet_coordinates(self, event, coordsclass):
-        coordinate = [coords.find(class_=coordsclass).a.text for coords in event]
-        coordinate = [const.convert_to_coordinates(coords) for coords in coordinate]
-        destination = [dest.find('figure', {'class': 'planetIcon'}) for dest in event]
-        destination = [const.convert_to_destinations(dest['class']) for dest in destination]
+        coordinate = []
+        for coords in event:
+            try:
+                coordinate.append(coords.find(class_=coordsclass).a.text)
+            except:
+                coordinate.append([0, 0, 0])
+
+        tmp_coords = []
+        for coords in coordinate:
+            try:
+                tmp_coords.append(const.convert_to_coordinates(coords))
+            except:
+                tmp_coords.append([0,0,0])
+        coordinate = tmp_coords
+
+        destination = []
+        for dest in event:
+            try:
+                destination.append(dest.find('figure', {'class': 'planetIcon'}) )
+            except:
+                destination.append([0,0,0])
+
+        tmp_dest = []
+        for dest in destination:
+            try:
+                tmp_dest.append(const.convert_to_destinations(dest['class']))
+            except:
+                tmp_dest.append([0,0,0])
+        destination = tmp_dest
         coordinates = []
+
         for coords, dest in zip(coordinate, destination):
             coords.append(dest)
             coordinates.append(coords)
-
         return coordinates
 
     def friendly_fleet(self):
@@ -788,10 +813,22 @@ class OGame(object):
             eventFleet = [child.parent.parent for child in eventFleet]
 
             fleet_ids = [id['id'] for id in eventFleet]
-            fleet_ids = [int(re.search('eventRow-(.*)', id).group(1)) for id in fleet_ids]
+            tmp_ids = []
+            for id in fleet_ids:
+                try:
+                    tmp_ids.append(int(re.search('eventRow-(.*)', id).group(1)))
+                except:
+                    tmp_ids.append(int(re.search('eventRow-union(.*)', id).group(1)))
+            fleet_ids = tmp_ids
 
             arrival_times = [int(event['data-arrival-time']) for event in eventFleet]
-            arrival_times = [datetime.fromtimestamp(timestamp) for timestamp in arrival_times]
+            tmp_time = []
+            for timestamp in arrival_times:
+                try:
+                    tmp_time.append(datetime.fromtimestamp(timestamp))
+                except:
+                    tmp_time.append(0)
+            arrival_times = tmp_time
 
             destinations = self.fleet_coordinates(eventFleet, 'destCoords')
             moon_attacked = []
@@ -802,8 +839,20 @@ class OGame(object):
                     destination[3] = 3
             origins = self.fleet_coordinates(eventFleet, 'coordsOrigin')
 
-            player_ids = [int(id.find(class_='sendMail').a['data-playerid']) for id in eventFleet]
-            player_names = [name.find(class_='sendMail').a['title'] for name in eventFleet]
+            player_ids = []
+            for id in eventFleet:
+                try:
+                    player_ids.append(int(id.find(class_='sendMail').a['data-playerid']))
+                except:
+                    player_ids.append(0)
+
+            player_names = []
+            for name in eventFleet:
+                try:
+                    player_names.append(name.find(class_='sendMail').a['title'])
+                except:
+                    player_names.append('')
+
 
             fleets = []
             for i in range(len(fleet_ids)):
