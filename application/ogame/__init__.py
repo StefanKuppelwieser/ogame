@@ -811,6 +811,11 @@ class OGame(object):
 
             eventFleet = bs4.find_all('span', class_='hostile')
             eventFleet = [child.parent.parent for child in eventFleet]
+            tmp_eventFleet = []
+            for current_fleet in eventFleet:
+                if current_fleet.attrs.get('class')[0] == 'partnerInfo' or current_fleet.attrs.get('class')[0] == 'eventFleet':
+                    tmp_eventFleet.append(current_fleet)
+            eventFleet = tmp_eventFleet
 
             fleet_ids = [id['id'] for id in eventFleet]
             tmp_ids = []

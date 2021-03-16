@@ -233,7 +233,6 @@ class Saving(object):
             logger.warning(message)
             self.telegram.send_message(message)
 
-
     def auto_run_saving(self):
 
         enemies_cache = []
@@ -254,9 +253,9 @@ class Saving(object):
                     # skip if it el_nappo aka President Neso
                     if current_attack.player_name == 'President Neso':
                         continue
-                    # skip if attack is under 5 minutes
+                    # skip if attack is under 12 minutes
                     diff = self.utils.get_diff_minutes(current_attack.arrival)
-                    if diff <= 10:
+                    if diff <= 12:
                         continue
                     is_in_list = False
                     for old_attack in enemies_cache:
