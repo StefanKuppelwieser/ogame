@@ -103,6 +103,16 @@ class Saving(object):
             )
             logger.warning(message)
             self.telegram.send_message(message)
+        else:
+            message = 'No ships are saved from {0} {1} to {2} {3}! Something went wrong!'.format(
+                planet_in_attack,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_in_attack)),
+                planet_4_saving,
+                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_4_saving))
+            )
+            logger.warning(message)
+            self.telegram.send_message(message)
+
 
     def save_ressources(self, planet_in_attack, planet_4_saving=None):
         # save ressources
