@@ -741,7 +741,9 @@ class OGame(object):
         destination = []
         for dest in event:
             try:
-                destination.append(dest.find('figure', {'class': 'planetIcon'}) )
+                destFleet = dest.find(class_='destFleet')
+                destination.append(destFleet.find('figure', {'class': 'planetIcon'}))
+                #destination.append(dest.find('figure', {'class': 'planetIcon'}))
             except:
                 destination.append([0,0,0])
 
