@@ -103,15 +103,6 @@ class Saving(object):
             )
             logger.warning(message)
             self.telegram.send_message(message)
-        else:
-            message = 'No ships are saved from {0} {1} to {2} {3}! Something went wrong!'.format(
-                planet_in_attack,
-                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_in_attack)),
-                planet_4_saving,
-                self.empire.name_by_planet_id(self.empire.id_by_planet_moon_cords(planet_4_saving))
-            )
-            logger.warning(message)
-            self.telegram.send_message(message)
 
 
     def save_ressources(self, planet_in_attack, planet_4_saving=None):
@@ -189,7 +180,7 @@ class Saving(object):
                     self.telegram.send_message(message)
 
                 if mission_type != mission.park:
-                    logger.info('Check if transpoertes are back for saving. Next run in {0} seconds.'.format('90'))
+                    logger.info('Check if cargos are back for saving. Next run in {0} seconds.'.format('90'))
                     time.sleep(90)
                     resources = self.empire.resources(self.empire.id_by_planet_moon_cords(planet_in_attack))
                     ships_to_save = self.empire.ships(self.empire.id_by_planet_moon_cords(planet_in_attack))
@@ -261,11 +252,11 @@ class Saving(object):
                 new_attacks = []
                 for current_attack in self.empire.hostile_fleet():
                     # skip if it el_nappo aka President Neso
-                    if current_attack.player_name == 'President Neso':
+                    if current_attack.player_name == 'President Neso' and True:
                         continue
                     # skip if attack is under 12 minutes
                     diff = self.utils.get_diff_minutes(current_attack.arrival)
-                    if diff <= 12:
+                    if diff <= 11:
                         continue
                     is_in_list = False
                     for old_attack in enemies_cache:
@@ -311,30 +302,45 @@ class Saving(object):
 
                     if new_attack.destination[3] == 3:
 
-                        # check deut
-                        if self.has_enough_deuterium(new_attack.destination):
-                            pass
+                        # moon and planet are under attack. safe to elnappo
+                        for enemy in enemies_cache:
+                            if (new_attack.destination[0] == enemy.destination[0] and new_attack.destination[1] == enemy.destination[1] and new_attack.destination[2] == enemy.destination[2] and enemy.destination[3] == 1):
+                                self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                                self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                                break
                         else:
-                        #     # TODO: get deut of mother planet
-                        #     pass
-                        #
-                            pass
-
-                        self.safe_battleships(new_attack.destination)
-                        self.save_ressources(new_attack.destination)
-
-                    if new_attack.destination[3] == 1:
-                        has_planet_a_moon = self.has_planet_moon(new_attack.destination)
-
-                        if has_planet_a_moon is True:
-                            planet_4_saving = new_attack.destination[:]
-                            planet_4_saving[3] = 3 #moon
+                            # check deut
+                            if self.has_enough_deuterium(new_attack.destination):
+                                pass
+                            else:
+                            #     # TODO: get deut of mother planet
+                            #     pass
+                            #
+                                pass
 
                             self.safe_battleships(new_attack.destination)
                             self.save_ressources(new_attack.destination)
+
+                    if new_attack.destination[3] == 1:
+
+                        # moon and planet are under attack. safe to elnappo
+                        for enemy in enemies_cache:
+                            if (new_attack.destination[0] == enemy.destination[0] and new_attack.destination[1] == enemy.destination[1] and new_attack.destination[2] == enemy.destination[2] and enemy.destination[3] == 3):
+                                self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                                self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                                break
                         else:
-                            self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
-                            self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                            has_planet_a_moon = self.has_planet_moon(new_attack.destination)
+
+                            if has_planet_a_moon is True:
+                                planet_4_saving = new_attack.destination[:]
+                                planet_4_saving[3] = 3 #moon
+
+                                self.safe_battleships(new_attack.destination)
+                                self.save_ressources(new_attack.destination)
+                            else:
+                                self.safe_battleships(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
+                                self.save_ressources(new_attack.destination, self.properties.SAVING_PLANET_TO_SAVE)
 
             else:
                 # reset list
