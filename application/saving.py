@@ -252,7 +252,7 @@ class Saving(object):
                 new_attacks = []
                 for current_attack in self.empire.hostile_fleet():
                     # skip if it el_nappo aka President Neso
-                    if current_attack.player_name == 'President Neso' and True:
+                    if current_attack.player_name == 'President Neso' and False:
                         continue
                     # skip if attack is under 12 minutes
                     current_attack.diff = self.utils.get_diff_minutes(current_attack.arrival)
