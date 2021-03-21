@@ -244,8 +244,8 @@ class Saving(object):
 
                 # Reduce list
                 for enemie_cache in enemies_cache:
-                    diff = self.utils.get_diff_minutes(enemie_cache.arrival)
-                    if diff < int(self.properties.SAVING_RECHECK_ATTACKS / 60):
+                    enemie_cache.diff = self.utils.get_diff_minutes(enemie_cache.arrival)
+                    if enemie_cache.diff <= 11:
                         enemies_cache.remove(enemie_cache)
 
                 # Add attack to cache list
@@ -255,8 +255,8 @@ class Saving(object):
                     if current_attack.player_name == 'President Neso' and True:
                         continue
                     # skip if attack is under 12 minutes
-                    diff = self.utils.get_diff_minutes(current_attack.arrival)
-                    if diff <= 11:
+                    current_attack.diff = self.utils.get_diff_minutes(current_attack.arrival)
+                    if current_attack.diff <= 11:
                         continue
                     is_in_list = False
                     for old_attack in enemies_cache:
@@ -267,14 +267,15 @@ class Saving(object):
 
                 # send message of new attacks
                 for new_attack in new_attacks:
-                    message = '!!! You are under attack from {0}, {2} at planet {3} {4}. He arrives at {5} !!!'.format(
+                    message = '!!! You are under attack from {0}, {2} at planet {3} {4}. He arrives at {5} in under {6} minutes !!!'.format(
                         new_attack.player_name,
                         new_attack.player_id,
                         new_attack.origin,
                         new_attack.destination,
                         self.empire.name_by_moon_planet_id(
                             self.empire.id_by_planet_moon_cords(new_attack.destination)),
-                        new_attack.arrival
+                        new_attack.arrival,
+                        new_attack.diff
                     )
                     logger.warning(message)
                     self.telegram.send_message(message)

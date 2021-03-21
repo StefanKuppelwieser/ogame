@@ -795,6 +795,7 @@ class OGame(object):
                     origin = origins[i]
                     destination = destinations[i]
                     list = [id, mission, diplomacy, player_name, player_id, returns, arrival, origin, destination]
+                    diff = 0
 
                 fleets.append(Fleets)
         except:
