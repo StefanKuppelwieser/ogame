@@ -30,7 +30,7 @@ class Properties(object):
     #################################
     EXPEDITIONS_RECHECK = 120
     EXPEDITIONS_DURATION = 1
-    EXPEDITIONS_BONUS = 4 # +3 class bonus +1 admiral +0 Inventarbonus
+    EXPEDITIONS_BONUS = 6 # +3 class bonus +1 admiral +2 Inventarbonus
     EXPEDITIONS_ONLY_LARGE_CARGOS = True
     EXPEDITIONS_LARGE_CARGOS = 100
     EXPEDITIONS_SMALL_CARGOS = 200
