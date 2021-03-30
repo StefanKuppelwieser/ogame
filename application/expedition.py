@@ -170,6 +170,11 @@ class Expedition(object):
 
             # get best cords for expedition
             for planet in planets:
+
+                # this planet are at the moment the bunker
+                if self.empire.name_by_moon_planet_id(planet) == 'Millet' or self.empire.name_by_moon_planet_id(planet) == 'Tatonka':
+                    continue
+
                 # get cargos
                 cargos = self.get_amount_cargos(planet)
 
@@ -207,8 +212,6 @@ class Expedition(object):
                     self.empire.celestial_coordinates(tmp_source_planet)[0],
                     int(self.empire.celestial_coordinates(tmp_source_planet)[1] + random.uniform(-self.properties.EXPEDITIONS_RANGE, self.properties.EXPEDITIONS_RANGE)),
                     16)
-
-                1 if self.empire.ships(tmp_source_planet).espionage_probe.amount > 0 else 0
 
                 response = self.empire.send_fleet(
                     mission=mission.expedition,
