@@ -104,7 +104,6 @@ class Saving(object):
             logger.warning(message)
             self.telegram.send_message(message)
 
-
     def save_ressources(self, planet_in_attack, planet_4_saving=None):
         # save ressources
         response = False

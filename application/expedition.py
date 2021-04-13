@@ -172,7 +172,7 @@ class Expedition(object):
             for planet in planets:
 
                 # this planet are at the moment the bunker
-                if self.empire.name_by_moon_planet_id(planet) == 'Millet' or self.empire.name_by_moon_planet_id(planet) == 'Tatonka':
+                if (self.empire.name_by_moon_planet_id(planet) == 'Millet' or self.empire.name_by_moon_planet_id(planet) == 'Tatonka') and False:
                     continue
 
                 # get cargos

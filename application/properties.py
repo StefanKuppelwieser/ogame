@@ -15,7 +15,8 @@ class Properties(object):
     SAVING_RECHECK_ATTACKS = 180
 
     SAVING_SEND_PROBES = 11
-    SAVING_PLANET_TO_SAVE = [3, 162, 6, 1]  # Thx to President Neso
+    SAVING_PLANET_TO_SAVE = [4, 142, 10, 1]  # Thx to Commodore Orb
+    # SAVING_PLANET_TO_SAVE = [3, 162, 6, 1]  # Thx to President Neso
 
     SAVING_RANDOM_TEXT = [
         '“Houston, we’ve had a problem.” - Jim Lovell, Kommandant von Apollo 13, aus rund 300.000 km Entfernung von der Erde. Ihm konnte zum Glück geholfen werden, aber wie kann ich denn euch weiterhelfen?',
